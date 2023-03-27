@@ -2,38 +2,36 @@ package com.example.demo.service;
 
 import com.example.demo.model.Student;
 import com.example.demo.repository.StudentRepository;
-import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.UUID;
 
 
 @Service
+@RequiredArgsConstructor
 public class StudentService {
 
-    @Resource
-    private StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     public Void register() {
+        String random = UUID.randomUUID().toString();
+        String email = random.substring(random.length() - 4);
         Student student = new Student(
                 "littleRed",
                 "Xi",
-                "red@qq.com",
+                String.format("%s@qq.com", email),
                 18
         );
         studentRepository.save(student);
         return null;
     }
 
-    public Map<String, Object> listStu() {
-        HashMap<String, Object> map = new HashMap<>();
-        Pageable pageable = PageRequest.of(1, 10);
-        map.put("page", studentRepository.findAll(pageable));
-        map.put("content", studentRepository.findAll(Sort.unsorted()));
-        return map;
+    public Page<Student> listStu() {
+        Pageable pageable = PageRequest.of(0, 10);
+        return studentRepository.findAll(pageable);
     }
 }
