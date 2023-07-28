@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.example.demo.model.Student;
-import com.example.demo.service.StudentService;
+import com.example.demo.model.User;
+import com.example.demo.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 public class AccessController {
 
-    private final StudentService studentService;
+    private final UserService userService;
 
     @GetMapping("/hello")
     public ResponseEntity<String> hello () {
@@ -24,11 +24,11 @@ public class AccessController {
 
     @GetMapping("/register")
     public ResponseEntity<Void> register () {
-        return ResponseEntity.ok(studentService.register());
+        return ResponseEntity.ok(userService.register());
     }
 
     @GetMapping("/list")
-    public ResponseEntity<Page<Student>> listStu () {
-        return ResponseEntity.ok(studentService.listStu());
+    public ResponseEntity<Page<User>> listStu () {
+        return ResponseEntity.ok(userService.listStu());
     }
 }
